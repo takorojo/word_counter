@@ -20,7 +20,15 @@ public class Main {
             String input_file = args[0];
             String output_file = args[1];
 
-            sb.append(MessageFormat.format("Input file: {0}\nOutput file: {1}", input_file, output_file));
+            WordCounter counter = new WordCounter(input_file);
+
+            sb.append("Word counts:\n");
+
+            counter.count().forEach((k, v) -> {
+                sb.append(MessageFormat.format("{0}, {1}\n", k, v.toString()));
+            });
+
+//            sb.append(MessageFormat.format("Input file: {0}\nOutput file: {1}", input_file, output_file));
         }
 
         System.out.println(sb);
