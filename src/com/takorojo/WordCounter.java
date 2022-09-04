@@ -24,9 +24,15 @@ public class WordCounter {
         System.out.println(this._file_contents);
     }
 
+    /**
+     * Normalize the file contents.
+     *
+     * This is achieved by lowercasing all contents and then stripping out
+     * extraneous spaces and punctuation.
+     */
     private void normalize() {
         // NOTE: -- and - are separate entities that require separate handling.
-        String[] punctuation = {"   ", ",", "\\.", "--", "-", "\n"};
+        String[] punctuation = {"   ", ",", "\\.", "--", "-", "\"", "\n"};
 
         this._file_contents = this._file_contents.toLowerCase(Locale.ROOT);
 
