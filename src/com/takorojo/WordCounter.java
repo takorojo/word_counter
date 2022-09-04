@@ -20,15 +20,33 @@ public class WordCounter {
         this._file_path = input_file;
         readFile(this._file_path);
         normalize();
+    }
 
-        System.out.println(this._file_contents);
+    /**
+     * Read the given text file and load its contents into self._file_contents.
+     *
+     * @param file_path file to read contents of
+     */
+    private void readFile(String file_path) {
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(this._file_path))) {
+            StringBuilder sb = new StringBuilder();
+            String line = reader.readLine();
+
+            while (line != null) {
+                sb.append(line + " ");
+                line = reader.readLine();
+            }
+
+            this._file_contents = sb.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Normalize the file contents.
-     *
-     * This is achieved by lowercasing all contents and then stripping out
-     * extraneous spaces and punctuation.
+     * <p>
+     * This is achieved by lowercasing all contents and then stripping out extraneous spaces and punctuation.
      */
     private void normalize() {
         // NOTE: -- and - are separate entities that require separate handling.
@@ -44,8 +62,9 @@ public class WordCounter {
     /**
      * Strip all instances of the given character from the given string.
      *
-     * @param string string to strip characters from
+     * @param string        string to strip characters from
      * @param char_to_strip character to strip from the given string
+     *
      * @return The given string with all instances the given character stripped out.
      */
     private String stripChars(String string, String char_to_strip) {
@@ -56,27 +75,6 @@ public class WordCounter {
         }
 
         return string.replaceAll(char_to_strip, replacement_character);
-    }
-
-    /**
-     * Read the given text file and load its contents into self._file_contents.
-     *
-     * @param file_path file to read contents of
-     */
-    private void readFile(String file_path) {
-        try(BufferedReader reader = Files.newBufferedReader(Paths.get(this._file_path))) {
-            StringBuilder sb = new StringBuilder();
-            String line = reader.readLine();
-
-            while (line != null) {
-                sb.append(line + " ");
-                line = reader.readLine();
-            }
-
-            this._file_contents = sb.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -101,6 +99,14 @@ public class WordCounter {
         return values;
     }
 
+    /**
+     * Count the number of times the given word appears in the given word list.
+     *
+     * @param word_list list of words to check
+     * @param word      word to count
+     *
+     * @return number of times the word appears in the list
+     */
     private Integer wordCount(String[] word_list, String word) {
         int count = 0;
 
